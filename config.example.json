@@ -1,0 +1,5 @@
+{
+    "remove me": "Copy this file to config.json and fill out all the fields",
+    "botToken": "Discord bot token",
+    "prefix": "Command prefix"
+}

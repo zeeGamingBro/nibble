@@ -1,0 +1,29 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model GuildMember {
+  userId  String
+  guildId String
+
+  nicknames Nickname[]
+
+  @@id([userId, guildId])
+}
+
+model Nickname {
+  setAt              DateTime     @id
+  name               String
+
+  GuildMember        GuildMember? @relation(fields: [guildMemberUserId, guildMemberGuildId], references: [userId, guildId])
+  guildMemberUserId  String?
+  guildMemberGuildId String?
+}
