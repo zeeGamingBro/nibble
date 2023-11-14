@@ -24,7 +24,7 @@ module.exports = {
         }
 
         const name = args[0].toLowerCase();
-        const command = commands.get(name) || commands.find(c => c.aliases && c.aliases.includes(name));
+        const command = client.commands.get(name) || client.commands.find(c => c.aliases && c.aliases.includes(name));
 
         if (!command) {
             return message.channel.sendEmbed(helpEmbed
@@ -44,7 +44,8 @@ module.exports = {
         if (command.description) helpEmbed.setDescription(command.description)
 
         if (command.aliases) helpEmbed.addField("Aliases: ", command.aliases.join(", "))
-        if (command.usage) helpEmbed.addField("Usage: ", `${prefix}${command.name} ${command.usage}`)
+        if (command.usage) helpEmbed.addField("Usage: ", `\`${prefix}${command.name} ${command.usage}\``)
+        if (command.usage) helpEmbed.setFooter("Arguments in [] are optional. Arguments in <> are required.")
 
         message.channel.sendEmbed(helpEmbed)
     }
