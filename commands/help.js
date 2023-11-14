@@ -16,7 +16,7 @@ module.exports = {
 
         if (!args.length) {
             return message.channel.sendEmbed(helpEmbed
-                .setColor(client.config.embedColors.default)
+                .setColor("#6666aa")
                 .setTitle(cmdmap.length + " commands")
                 .setDescription(cmdmap.join(", "))
                 .setFooter(`Want help using a specific command? Use ${prefix}help [command name]. • Nibble ${revision}`)
@@ -28,12 +28,12 @@ module.exports = {
 
         if (!command) {
             return message.channel.sendEmbed(helpEmbed
-                .setColor(client.config.embedColors.error)
+                .setColor("#aa6666")
                 .setTitle("Invalid command.")
             )
         }
 
-        helpEmbed.setColor(client.config.embedColors.default)
+        helpEmbed.setColor("#6666aa")
 
         let m = command.name.split('')
         m[0] = m[0].toUpperCase();
@@ -44,17 +44,7 @@ module.exports = {
         if (command.description) helpEmbed.setDescription(command.description)
 
         if (command.aliases) helpEmbed.addField("Aliases: ", command.aliases.join(", "))
-        if (command.permissions instanceof String) helpEmbed.addField("Required permissions: ", command.permissions)
-        if (command.permissions instanceof Array) helpEmbed.addField("Required permissions: ", command.permissions.join(", "))
         if (command.usage) helpEmbed.addField("Usage: ", `${prefix}${command.name} ${command.usage}`)
-        if (command.cooldown) {
-            const minsec = minutes(command.cooldown)
-            let timeString = ""
-            if (minsec.m > 0) timeString += (minsec.m + "m ")
-            if (minsec.s > 0) timeString += (minsec.s + "s")
-
-            helpEmbed.addField("Cooldown: ", timeString)
-        }
 
         message.channel.sendEmbed(helpEmbed)
     }

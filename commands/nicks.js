@@ -8,8 +8,8 @@ const { PrismaClient } = require("@prisma/client")
 const prisma = new PrismaClient()
 
 module.exports = {
-    name: 'ping',
-    description: 'Ping!',
+    name: 'nicks',
+    description: 'View someone\'s logged nicknames',
     usage: '[page] [user]',
     aliases: ["nicknames", "whowas"],
     /**
