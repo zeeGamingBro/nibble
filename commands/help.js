@@ -10,8 +10,8 @@ module.exports = {
         const cmdmap = client.commands.filter(x => !x.hidden).map(x => x.name)
         const prefix = client.config.prefix
         const revision = require('child_process')
-        .execSync('git rev-parse --short HEAD')
-        .toString().trim()
+            .execSync('git rev-parse --short HEAD')
+            .toString().trim()
         let helpEmbed = new MessageEmbed()
 
         if (!args.length) {
