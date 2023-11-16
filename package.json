@@ -19,7 +19,8 @@
   "dependencies": {
     "@prisma/client": "^5.6.0",
     "discord-eris-embeds": "^1.0.4",
-    "eris": "^0.17.2"
+    "eris": "^0.17.2",
+    "natural": "^6.8.0"
   },
   "devDependencies": {
     "prisma": "^5.6.0"
