@@ -24,7 +24,7 @@ module.exports = async (client, message) => {
         return message.channel.sendEmbed((new MessageEmbed())
             .setColor("#aa6666")
             .setTitle("This command requires arguments.")
-            .addField("Proper usage: ", `${prefix}${usagename} ${command.usage}`)
+            .addField("Proper usage: ", `${prefix}${commandName} ${command.usage}`)
         )
     }
 
