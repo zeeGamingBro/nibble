@@ -1,5 +1,6 @@
 {
     "remove me": "Copy this file to config.json and fill out all the fields",
     "botToken": "Discord bot token",
-    "prefix": "Command prefix"
+    "prefix": "Command prefix",
+    "owners": ["Discord IDs of people who should be able to run owner only commands"]
 }

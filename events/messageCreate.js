@@ -28,6 +28,8 @@ module.exports = async (client, message) => {
         )
     }
 
+    if (command.ownerOnly) {}
+
     try {
         await command.execute(client, message, args)
     } catch (error) {
