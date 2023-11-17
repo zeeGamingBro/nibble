@@ -22,6 +22,8 @@ module.exports = {
         let resultsPerPage = 10
         let page = parseInt(args[0] - 1) || 0
 
+        if (page <= 0) page = 1
+
         beastembed = new MessageEmbed()
 
         let start = (page * resultsPerPage)
