@@ -20,7 +20,7 @@ module.exports = {
      */
     async execute(client, message, args) {
         let resultsPerPage = 10
-        let page = parseInt(args[0] - 1) || 0
+        let page = parseInt(args[0] - 1) || 1
 
         if (page <= 0) page = 1
 
