@@ -20,9 +20,9 @@ module.exports = {
      */
     async execute(client, message, args) {
         let resultsPerPage = 10
-        let page = parseInt(args[0] - 1) || 1
+        let page = parseInt(args[0] - 1) || 0
 
-        if (page <= 0) page = 1
+        if (page <= -1) page = 0 // we have an offset
 
         beastembed = new MessageEmbed()
 
