@@ -10,6 +10,7 @@ const prisma = new PrismaClient()
  */
 module.exports = async (client, guild, member, oldMember) => {
     if (member.user.bot) return;
+    if (member.nick == oldMember.nick) return;
     console.log(`User ${member.username} (${member.id}) updated nickname in ${guild.name} (${guild.id}) to ${member.nick}`)
     await prisma.nickname.create({
         data: {
