@@ -9,7 +9,7 @@ module.exports = {
     description: 'View Git info',
     usage: '',
     args: false,
-    aliases: ["info", "github", "version", "patchnotes", "changes", "code"],
+    aliases: ["info", "github", "version", "patchnotes", "changes", "code", "repo"],
     /**
      * 
      * @param {Eris.Client} client 
