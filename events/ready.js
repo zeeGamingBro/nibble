@@ -3,6 +3,9 @@ const fs = require("fs")
 
 let changeInterval = undefined;
 
+const statusList = ["with LettersBot", "with the nickname machine", "Fortnite", "tic-tac-toe", "around", "something", "football", "blackjack",
+                    "Nickname Clicker 2023", "Visual Studio Code", "some tunes"]
+
 /**
  * 
  * @param {Eris.Client} bot 
@@ -12,25 +15,34 @@ module.exports = async (bot) => {
     
     clearInterval(changeInterval) // We have no guarantee ready only fires once
 
-    let eventListing = fs.readdirSync("./events/")
-    eventListing.forEach((value, index, array) => {
-        array[index] = value.replace("/", "").replace("\\", "").replace(".js", "")
-        if (array[index] == "ready") delete array[index]
-    })
-    eventListing = eventListing.filter(n => n)
-
     bot.editStatus("online", {
         name: `*yawn*`,
         type: 0
     })
 
-    changeInterval = setInterval(changeStatus, 2 * 60 * 1000, bot, eventListing)
+    changeStatus(bot, statusList)
+
+    changeInterval = setInterval(changeStatus, 2 * 60 * 1000, bot, statusList)
 
 }
 
-function changeStatus(bot, events) {
+function changeStatus(bot, statuses) {
+    mystatus = statuses[Math.floor( Math.random()*statuses.length )]
+
+    if ((Math.random() > 0.6) && mystatus != "with LettersBot") {
+        if (mystatus.startsWith("with")) {
+            mystatus += " and"
+        } else {
+            mystatus += " with"
+        }
+        mystatus += " LettersBot"
+    }
+    if (Math.random() > 0.6) {
+        mystatus += " :3"
+    }
+
     bot.editStatus("online", {
-        name: `${events[Math.floor(Math.random()*events.length)]} events`,
-        type: 2
+        name: mystatus,
+        type: 0
     })
 }
