@@ -1,0 +1,4 @@
+{
+    "name": "Base",
+    "desc": "This module contains events and commands essential to Nibble. Cannot be disabled."
+}

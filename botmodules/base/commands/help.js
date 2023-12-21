@@ -45,6 +45,7 @@ module.exports = {
 
         if (command.aliases) helpEmbed.addField("Aliases: ", command.aliases.join(", "))
         if (command.usage) helpEmbed.addField("Usage: ", `\`${prefix}${command.name} ${command.usage}\``)
+        helpEmbed.addField("Module: ", client.modules.get(command.module).name)
         if (command.usage) helpEmbed.setFooter("Arguments in [] are optional. Arguments in <> are required.")
 
         message.channel.sendEmbed(helpEmbed)

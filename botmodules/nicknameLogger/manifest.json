@@ -1,0 +1,4 @@
+{
+    "name": "Nicknames",
+    "desc": "This module must be enabled for nickname logging functionality. Nicknames are not logged while this module is disabled."
+}

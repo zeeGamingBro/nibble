@@ -14,10 +14,22 @@ const client = new Client(config.botToken, {
 
 client.events = new Collection();
 client.commands = new Collection();
-client.modules = [];
+client.modules = new Collection();
 
 client.loadModules = () => {
-    return readdirSync("./botmodules/")
+    let modules = readdirSync("./botmodules")
+    let manifest = {}
+    modules.forEach(modulename => {
+        try {
+            manifest = require(`./botmodules/${modulename}/manifest.json`)
+        } catch (e) {
+            console.error("Module " + modulename + " is missing a manifest.json. Default values will be guessed")
+            manifest["name"] = modulename
+            manifest["desc"] = "No manifest.json for " + modulename
+        }
+        manifest["db"] = modulename;
+        client.modules.set(modulename, manifest)
+    })
 }
 
 client.loadEventsFromModule = (moduleName) => {
@@ -36,7 +48,6 @@ client.loadEventsFromModule = (moduleName) => {
         const eventFile = require(`${eventBasePath}${event}`);
 
         eventFile["module"] = moduleName;
-        console.log(eventFile)
 
         client.events.set(eventName, eventFile)
 
@@ -74,10 +85,11 @@ client.loadConfig = () => {
 }
 
 client.loadConfig();
-client.modules = client.loadModules();
+client.loadModules();
 
-client.modules.forEach((modulename) => {
+client.modules.forEach((manifest, modulename) => {
     console.log("try to load " + modulename)
+    console
     if (!existsSync("./botmodules/" + modulename)) {
         console.err(`module ${modulename} does not exist`)
         return
