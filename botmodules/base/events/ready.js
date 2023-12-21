@@ -10,20 +10,22 @@ const statusList = ["with LettersBot", "with the nickname machine", "Fortnite", 
  * 
  * @param {Eris.Client} bot 
  */
-module.exports = async (bot) => {
-    console.log(`Logged into discord as ${bot.user.username}`)
+module.exports = {
+    async handle(bot) {
+        console.log(`Logged into discord as ${bot.user.username}`)
+        
+        clearInterval(changeInterval) // We have no guarantee ready only fires once
     
-    clearInterval(changeInterval) // We have no guarantee ready only fires once
-
-    bot.editStatus("online", {
-        name: `*yawn*`,
-        type: 0
-    })
-
-    changeStatus(bot, statusList)
-
-    changeInterval = setInterval(changeStatus, 2 * 60 * 1000, bot, statusList)
-
+        bot.editStatus("online", {
+            name: `*yawn*`,
+            type: 0
+        })
+    
+        changeStatus(bot, statusList)
+    
+        changeInterval = setInterval(changeStatus, 2 * 60 * 1000, bot, statusList)
+    
+    }
 }
 
 function changeStatus(bot, statuses) {

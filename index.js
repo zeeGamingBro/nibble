@@ -35,9 +35,12 @@ client.loadEventsFromModule = (moduleName) => {
         const eventName = event.split('.')[0];
         const eventFile = require(`${eventBasePath}${event}`);
 
+        eventFile["module"] = moduleName;
+        console.log(eventFile)
+
         client.events.set(eventName, eventFile)
 
-        client.on(eventName, eventFile.bind(null, client))
+        client.on(eventName, eventFile.handle.bind(eventFile, client))
     })
     console.log(`Successfully loaded ${eventListing.length} events from ${moduleName}`)
 }
