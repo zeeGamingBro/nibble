@@ -14,7 +14,7 @@ model GuildModules {
   guildId String @id
 
   nicknameLogger Boolean @default(true)
-  customRoles    Boolean @default(true)
+  colorRoles     Boolean @default(false)
 }
 
 model GuildMember {
