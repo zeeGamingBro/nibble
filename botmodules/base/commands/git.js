@@ -21,7 +21,6 @@ module.exports = {
         let commitinfo = child.execSync(`git log -1 --pretty="%B ^^ %at ^^ %h ^^ %aN"`).toString().trim()
         let giturl = child.execSync("git remote get-url origin").toString().replace(".git", "").trim()
         commitinfo = commitinfo.split(" ^^ ")
-        console.log(commitinfo)
 
         commitmessage = commitinfo[0].trim()
         commitdate = `<t:${commitinfo[1]}>`
