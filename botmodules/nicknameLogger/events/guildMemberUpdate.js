@@ -1,4 +1,5 @@
 const Eris = require("eris")
+const { isModuleEnabled } = require("../../../util/moduleUtil")
 const { PrismaClient } = require("@prisma/client")
 const prisma = new PrismaClient()
 /**
@@ -9,6 +10,7 @@ const prisma = new PrismaClient()
  */
 module.exports = {
     async handle(client, guild, member, oldMember) {
+        if (!isModuleEnabled(guild.id, this.module)) return
         if (member.user.bot) return;
         if (member.nick == oldMember.nick) return;
         console.log(`User ${member.username} (${member.id}) updated nickname in ${guild.name} (${guild.id}) to ${member.nick}`)

@@ -3,17 +3,23 @@ const prisma = new PrismaClient()
 
 module.exports = {
     isModuleEnabled: async (guildId, module) => {
-        prisma.guildModules.findUnique({
+        let data = await prisma.guildModules.upsert({
             where: {
                 guildId: guildId
-            }
-        }).then((data) => {
-            try {
-                return data["module"]
-            } catch (e) {
-                console.error(e)
-                return null
+            },
+            update: {},
+            create: {
+                guildId: guildId
             }
         })
+
+        console.log(data)
+        try {
+            return data["module"]
+        } catch (e) {
+            console.error(e)
+            return null
+        }
+        
     }
 }
