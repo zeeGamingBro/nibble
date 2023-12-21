@@ -10,6 +10,13 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+model GuildModules {
+  guildId String @id
+
+  nicknameLogger Boolean @default(true)
+  customRoles    Boolean @default(true)
+}
+
 model GuildMember {
   userId  String
   guildId String
@@ -20,8 +27,8 @@ model GuildMember {
 }
 
 model Nickname {
-  setAt              DateTime     @id
-  name               String
+  setAt DateTime @id
+  name  String
 
   GuildMember        GuildMember? @relation(fields: [guildMemberUserId, guildMemberGuildId], references: [userId, guildId])
   guildMemberUserId  String?
