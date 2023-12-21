@@ -20,14 +20,14 @@ module.exports = {
         const commandName = args.shift().toLowerCase();
         let command = client.commands.get(commandName) || client.commands.find((cmd) => cmd.aliases && cmd.aliases.includes(commandName));
         if (!command) return;
-        if (command.disabled) return;
-        if (!isModuleEnabled(message.guildID, command.module)) {
-            message.channel.sendEmbed((new MessageEmbed())
+        let enabled = await isModuleEnabled(message.guildID, command.module)
+        if (command.module == "base") enabled = true
+        if (!enabled) {
+            return message.channel.sendEmbed((new MessageEmbed())
                 .setColor("#aa6666")
                 .setTitle("This command's module is disabled.")
                 .setDescription("Module " + client.modules.get(command.module).name + " is disabled in this server.")    
             )
-            return
         }
     
         if (command.args && !args.length) {
@@ -37,8 +37,26 @@ module.exports = {
                 .addField("Proper usage: ", `${prefix}${commandName} ${command.usage}`)
             )
         }
+
+        if (command.permissions?.length > 0) {
+            let canExecute = true
     
-        if (command.ownerOnly) {}
+            if (Array.isArray(command.permissions)) {
+                let member = client.guilds.get(message.guildID).members.get(message.author.id)
+                console.log(member)
+                command.permissions.forEach(permission => {
+                    if (!member.permissions.json[permission]) canExecute = false;
+                });
+            }
+    
+            if (!canExecute) {
+                return message.channel.sendEmbed((new MessageEmbed())
+                    .setColor(client.config.embedColors.error)
+                    .setTitle("You do not have the proper permissions to run this command.")
+                    .setDescription("Required permissions: " + command.permissions)
+                )
+            }
+        }
     
         try {
             await command.execute(client, message, args)
