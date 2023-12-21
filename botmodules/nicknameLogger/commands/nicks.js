@@ -1,7 +1,7 @@
 /* eslint-disable */ // delete this line if you're using ping as a template
 const MessageEmbed = require("davie-eris-embed")
 const Eris = require("eris")
-const { getUserFromID } = require("../util/stringUtil")
+const { getUserFromID } = require("../../../util/stringUtil")
 /* eslint-enable */
 
 const { PrismaClient } = require("@prisma/client")
