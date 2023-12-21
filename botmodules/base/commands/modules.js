@@ -21,7 +21,7 @@ module.exports = {
         for (const manifest of client.modules.values()) {
             enabled = (await isModuleEnabled(message.guildID, manifest.db)) ? "Enabled" : "Disabled"
             if (manifest.name == "Base") enabled = "Enabled"
-            embed.addField(`${manifest.name} {${enabled}}`, manifest.desc)
+            embed.addField(`${manifest.name} (${enabled})`, manifest.desc)
         }
 
         await message.channel.sendEmbed(embed)
