@@ -21,7 +21,9 @@ module.exports = {
         let command = client.commands.get(commandName) || client.commands.find((cmd) => cmd.aliases && cmd.aliases.includes(commandName));
         if (!command) return;
         if (command.disabled) return;
-        if (!isModuleEnabled(message.guildID, command.module)) {
+        let enabled = await isModuleEnabled(message.guildID, command.module)
+        if (command.module == "base") enabled = true
+        if (!enabled) {
             message.channel.sendEmbed((new MessageEmbed())
                 .setColor("#aa6666")
                 .setTitle("This command's module is disabled.")
