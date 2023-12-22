@@ -17,7 +17,6 @@ model GuildModules {
   guildId String @id
 
   nicknameLogger Boolean @default(true)
-  userInfo       Boolean @default(true)
 }
 
 model GuildMember {
