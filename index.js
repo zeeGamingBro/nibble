@@ -28,6 +28,7 @@ client.loadModules = () => {
             manifest["desc"] = "No manifest.json for " + modulename
         }
         manifest["db"] = modulename;
+        manifest["commands"] = [];
         client.modules.set(modulename, manifest)
     })
 }
@@ -72,6 +73,10 @@ client.loadCommandsFromModule = (moduleName) => {
         const commandFile = require(`${commandBasePath}${command}`);
 
         commandFile["module"] = moduleName;
+
+        let module = client.modules.get(moduleName)
+        module.commands =  [...(module.commands || []), commandFile]
+        client.modules.set(moduleName, module)
 
         client.commands.set(commandName, commandFile)
     })
