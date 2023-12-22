@@ -62,6 +62,5 @@ module.exports = {
             .setFooter(`Page ${page + 1}`)
             .setDescription(embedBody)
         )
-        console.log(myFunny)
     }
 }

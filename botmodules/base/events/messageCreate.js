@@ -43,7 +43,6 @@ module.exports = {
     
             if (Array.isArray(command.permissions)) {
                 let member = client.guilds.get(message.guildID).members.get(message.author.id)
-                console.log(member)
                 command.permissions.forEach(permission => {
                     if (!member.permissions.json[permission]) canExecute = false;
                 });
