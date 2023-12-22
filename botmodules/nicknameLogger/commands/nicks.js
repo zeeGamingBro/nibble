@@ -51,6 +51,9 @@ module.exports = {
             })
             results = results.slice(start, stop)
             results.forEach((result, idx) => {
+                if (results[idx+1]) {
+                    if (result.name == results[idx+1].name) return;
+                }
                 set = "set "
                 if (result.name == "Nickname reset") set = ""
                 beastembed.addField(result.name, `${set}at <t:${parseInt(result.setAt.valueOf() / 1000)}:f>`, false)
