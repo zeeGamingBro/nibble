@@ -18,8 +18,7 @@ module.exports = {
      * @param {Array.<string>} args 
      */
     async execute(client, message, args) {
-        let module = args[0]
-        module = module.charAt(0).toUpperCase() + module.slice(1).toLowerCase()
+        let module = args[0].trim().toLowerCase()
 
         if (module.trim().toLowerCase() == "base") {
             return message.channel.sendEmbed((new MessageEmbed())
@@ -29,7 +28,7 @@ module.exports = {
         }
 
         
-        module = client.modules.find((mdl) => mdl.name == module) || null
+        module = client.modules.find((mdl) => mdl.name.toLowerCase() == module) || null
         if (!module || !module.db) {
             return message.channel.sendEmbed((new MessageEmbed())
                 .setTitle("Could not find module.")

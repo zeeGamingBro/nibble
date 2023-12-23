@@ -17,11 +17,15 @@ model GuildModules {
   guildId String @id
 
   nicknameLogger Boolean @default(true)
+  serverExp      Boolean @default(false)
 }
 
 model GuildMember {
   userId  String
   guildId String
+
+  exp       Int @default(0)
+  level     Int @default(1)
 
   nicknames Nickname[]
 

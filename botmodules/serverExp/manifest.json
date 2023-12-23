@@ -1,0 +1,6 @@
+{
+    "name": "XP",
+    "desc": "This module provides a server XP system awarded based on participation in the server. XP will not be awarded or viewable while this module is disabled.",
+    "enabledMessage": "Users will now be awarded XP based on participation in the server, and can view their XP with )xp and )xplb.",
+    "disabledMessage": "XP will no longer be awarded in this server, and )xp and )xplb will no longer work."
+}
