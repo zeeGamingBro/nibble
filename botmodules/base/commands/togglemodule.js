@@ -10,6 +10,7 @@ module.exports = {
     description: 'Control if a module is enabled or disabled.',
     usage: '<module name>',
     args: true,
+    aliases: ["tm"],
     permissions: ["manageGuild"],
     /**
      * 
