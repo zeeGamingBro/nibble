@@ -1,4 +1,5 @@
 const MessageEmbed = require("davie-eris-embed")
+const { isModuleEnabled } = require("../../../util/moduleUtil")
 
 module.exports = {
     name: "help",
@@ -15,10 +16,19 @@ module.exports = {
         let helpEmbed = new MessageEmbed()
 
         if (!args.length) {
+            let length = 0
+
+            for (let [_, module] of client.modules) {
+                let moduleEnabled = await isModuleEnabled(message.guildID, module.db)
+                if (!moduleEnabled && module.db != "base") continue;
+                commandNamesArray = module.commands.map((cmd) => cmd.name)
+                length += commandNamesArray.length
+                helpEmbed.addField(`${module.name} module`, commandNamesArray.join(", "))
+            }
+
             return message.channel.sendEmbed(helpEmbed
                 .setColor("#6666aa")
-                .setTitle(cmdmap.length + " commands")
-                .setDescription(cmdmap.join(", "))
+                .setTitle(length + " commands")
                 .setFooter(`Want help using a specific command? Use ${prefix}help [command name]. • Nibble ${revision}`)
             )
         }

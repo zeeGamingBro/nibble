@@ -1,6 +1,9 @@
 // This is your Prisma schema file,
 // learn more about it in the docs: https://pris.ly/d/prisma-schema
 
+// note to self: npx prisma migrate dev --name migration_name to make a migration on dev machine
+//               npx prisma migrate dev                       to apply all migrations pulled from git
+
 generator client {
   provider = "prisma-client-js"
 }
@@ -14,12 +17,16 @@ model GuildModules {
   guildId String @id
 
   nicknameLogger Boolean @default(true)
-  colorRoles     Boolean @default(false)
+  serverExp      Boolean @default(false)
+  starboard      Boolean @default(false)
 }
 
 model GuildMember {
   userId  String
   guildId String
+
+  exp       Int @default(0)
+  level     Int @default(1)
 
   nicknames Nickname[]
 
@@ -33,4 +40,17 @@ model Nickname {
   GuildMember        GuildMember? @relation(fields: [guildMemberUserId, guildMemberGuildId], references: [userId, guildId])
   guildMemberUserId  String?
   guildMemberGuildId String?
+}
+
+model GuildStarboardSettings {
+  guildId           String    @id @unique
+
+  starboardChannel  String?   
+  starboardEmoji    String    @default("\u2B50")
+  starsRequired     Int       @default(3)
+  starOwnMessages   Boolean   @default(false)
+}
+
+model StarredMessage {
+  messageId       String @id @unique // we don't store any data, just make sure it exists
 }
