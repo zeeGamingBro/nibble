@@ -1,0 +1,6 @@
+{
+    "name": "Starboard",
+    "desc": "This module provides a starboard system that allows members to 'star' and save messages with a certain amount of emoji reactions.",
+    "enabledMessage": "Users can now 'star' messages they like to save them in the starboard channel. Messages starred while this module is disabled will not be updated. (Just enabled? Use )starboardsettings to configure.)",
+    "disabledMessage": "Starring messages is now disabled. Previously starred messages will not be updated."
+}

@@ -18,6 +18,7 @@ model GuildModules {
 
   nicknameLogger Boolean @default(true)
   serverExp      Boolean @default(false)
+  starboard      Boolean @default(false)
 }
 
 model GuildMember {
@@ -39,4 +40,13 @@ model Nickname {
   GuildMember        GuildMember? @relation(fields: [guildMemberUserId, guildMemberGuildId], references: [userId, guildId])
   guildMemberUserId  String?
   guildMemberGuildId String?
+}
+
+model GuildStarboardSettings {
+  guildId           String    @id @unique
+
+  starboardChannel  String?   
+  starboardEmoji    String    @default("\u2B50")
+  starsRequired     Int       @default(3)
+  starOwnMessages   Boolean   @default(false)
 }
