@@ -106,7 +106,28 @@ module.exports = {
                     )
                 }
             } else if (setting == "starboardemoji") {
-                message.channel.createMessage("not implemented")
+                if (args[1].length > 40) { // should be fine??
+                    return message.channel.sendEmbed((new MessageEmbed())
+                        .setColor("#aa6666")
+                        .setTitle("Starboard emoji should be a single emoji.")
+                    )
+                }
+                let starboardSettings = await prisma.guildStarboardSettings.upsert({
+                    create: {
+                        guildId: message.guildID
+                    },
+                    where: {
+                        guildId: message.guildID
+                    },
+                    update: {
+                        starboardEmoji: args[1].replace("<:", "").replace(">", "")
+                    }
+                })
+                message.channel.sendEmbed((new MessageEmbed())
+                    .setTitle(`Starboard emoji set to ${args[1]}`)
+                    .setColor("#fcd049")
+                    .setFooter("If this is not a single emoji, your starboard won't work!")
+                )
             } else if (setting == "starsrequired") {
                 let amount = parseInt(args[1].trim())
                 if (amount == NaN || !amount) {

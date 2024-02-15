@@ -50,3 +50,7 @@ model GuildStarboardSettings {
   starsRequired     Int       @default(3)
   starOwnMessages   Boolean   @default(false)
 }
+
+model StarredMessage {
+  messageId       String @id @unique // we don't store any data, just make sure it exists
+}

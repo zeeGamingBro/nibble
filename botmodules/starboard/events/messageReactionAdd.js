@@ -26,24 +26,26 @@ module.exports = {
             },
             update: {}
         })
-        console.log(identifier)
-        console.log(starboardSettings.starboardEmoji)
         if (identifier == starboardSettings.starboardEmoji) {
-            console.log(fetchedMessage.reactions)
             let reactionCount = fetchedMessage.reactions[identifier].count
             let reactionsNeeded = starboardSettings.starsRequired
             let channel;
+            let alreadyStarred = true;
+
+            const starredMessage = await prisma.starredMessage.findFirst({ where: { messageId: fetchedMessage.id } })
+            if (!starredMessage) alreadyStarred = false;
 
             if (reactor.id == fetchedMessage.author.id && !starboardSettings.starOwnMessages) {
                 return await fetchedMessage.removeReaction(identifier, reactor.id)
             }
 
-            if ((reactionCount >= reactionsNeeded) && (starboardSettings.starboardChannel != null)) {
+            if ((reactionCount >= reactionsNeeded) && (starboardSettings.starboardChannel != null) && !alreadyStarred) {
                 let channel = client.getChannel(starboardSettings.starboardChannel)
                 let starEmbed = (new MessageEmbed())
                     .setTitle(`${fetchedMessage.author.username} sent in ${fetchedMessage.channel.mention}`)
                     .setColor("#fcd049")
-                    .setDescription(fetchedMessage.content);
+                    .setDescription((fetchedMessage.content || "") + `\n\n[Jump to message](${fetchedMessage.jumpLink})`)
+                    .setTimestamp(fetchedMessage.timestamp)
                 
                 if (fetchedMessage.attachments) {
                     let imageSet = false
@@ -56,6 +58,7 @@ module.exports = {
                     });
                 }
                 channel.sendEmbed(starEmbed)
+                await prisma.starredMessage.create({data: { messageId: fetchedMessage.id }})
             }
         }
     }
