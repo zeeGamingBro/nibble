@@ -52,5 +52,7 @@ model GuildStarboardSettings {
 }
 
 model StarredMessage {
-  messageId       String @id @unique // we don't store any data, just make sure it exists
+  messageId           String @id @unique
+
+  starboardMessageId  String?
 }

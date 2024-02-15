@@ -1,7 +1,7 @@
 const { Client, Collection, TextChannel } = require("eris");
 const { readdirSync, existsSync } = require("fs");
 
-TextChannel.prototype.sendEmbed = function sendEmbed(EmbedBuilder) {
+TextChannel.prototype.sendEmbed = async function sendEmbed(EmbedBuilder) {
     return this.createMessage(EmbedBuilder.create)
 }
 let config = require("./config.json");
