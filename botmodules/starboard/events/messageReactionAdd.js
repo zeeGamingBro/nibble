@@ -39,13 +39,15 @@ module.exports = {
                 return await fetchedMessage.removeReaction(identifier, reactor.id)
             }
 
-            if ((reactionCount >= reactionsNeeded) && (starboardSettings.starboardChannel != null) && !alreadyStarred) {
+            if ((reactionCount >= reactionsNeeded) && (starboardSettings.starboardChannel != null)) {
                 let channel = client.getChannel(starboardSettings.starboardChannel)
-                let starEmbed = (new MessageEmbed())
+
+                let starEmbed = new MessageEmbed()
                     .setTitle(`${fetchedMessage.author.username} sent in ${fetchedMessage.channel.mention}`)
                     .setColor("#fcd049")
                     .setDescription((fetchedMessage.content || "") + `\n\n[Jump to message](${fetchedMessage.jumpLink})`)
                     .setTimestamp(fetchedMessage.timestamp)
+                    .setFooter(`${reactionCount} reactions`)
                 
                 if (fetchedMessage.attachments) {
                     let imageSet = false
@@ -57,8 +59,19 @@ module.exports = {
                         }
                     });
                 }
-                channel.sendEmbed(starEmbed)
-                await prisma.starredMessage.create({data: { messageId: fetchedMessage.id }})
+
+                if (!alreadyStarred) {                
+                    let starboardMessage = await channel.sendEmbed(starEmbed)
+                    await prisma.starredMessage.create({data: { messageId: fetchedMessage.id, starboardMessageId: starboardMessage.id }})
+                } else {
+                    let toEdit = starredMessage.starboardMessageId
+                    if (!toEdit) return; // some messages are pre-this-shit
+                    toEdit = await channel.getMessage(toEdit)
+                    toEdit.edit({
+                        embed: starEmbed.toJson
+                    })
+                }
+                
             }
         }
     }
