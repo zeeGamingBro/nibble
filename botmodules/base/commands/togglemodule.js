@@ -19,6 +19,15 @@ module.exports = {
      * @param {Array.<string>} args 
      */
     async execute(client, message, args) {
+
+        if (!message.member.permissions.has("manageGuild")) {
+            return message.channel.sendEmbed((new MessageEmbed())
+                .setColor("#aa6666")
+                .setTitle("You do not have permission to change module settings in this server.")
+                .setDescription("Manage Server permission is required to change module settings.")
+            )
+        }
+
         let module = args[0].trim().toLowerCase()
 
         if (module.trim().toLowerCase() == "base") {
