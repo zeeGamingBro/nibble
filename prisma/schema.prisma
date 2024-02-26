@@ -45,10 +45,11 @@ model Nickname {
 model GuildStarboardSettings {
   guildId           String    @id @unique
 
-  starboardChannel  String?   
-  starboardEmoji    String    @default("\u2B50")
-  starsRequired     Int       @default(3)
-  starOwnMessages   Boolean   @default(false)
+  starboardChannel        String?   
+  starboardEmoji          String    @default("\u2B50")
+  starsRequired           Int       @default(3)
+  starOwnMessages         Boolean   @default(false)
+  starboardUsesNicknames  Boolean   @default(false)
 }
 
 model StarredMessage {

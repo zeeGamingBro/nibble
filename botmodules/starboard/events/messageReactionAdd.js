@@ -41,9 +41,15 @@ module.exports = {
 
             if ((reactionCount >= reactionsNeeded) && (starboardSettings.starboardChannel != null)) {
                 let channel = client.getChannel(starboardSettings.starboardChannel)
+                let nameToUse = fetchedMessage.author.username
+                if (starboardSettings.starboardUsesNicknames) {
+                    if (reactor.nick) { // weeeeee
+                        nameToUse = reactor.nick
+                    }
+                }
 
                 let starEmbed = new MessageEmbed()
-                    .setTitle(`${fetchedMessage.author.username} sent in ${fetchedMessage.channel.mention}`)
+                    .setTitle(`${nameToUse} sent in ${fetchedMessage.channel.mention}`)
                     .setColor("#fcd049")
                     .setDescription((fetchedMessage.content || "") + `\n\n[Jump to message](${fetchedMessage.jumpLink})`)
                     .setTimestamp(fetchedMessage.timestamp)

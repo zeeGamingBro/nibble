@@ -43,7 +43,8 @@ module.exports = {
                 .addField(`starboardChannel: ${channelname}`, "Channel that starred messages will be saved to. Stars do nothing if this is not set.")
                 .addField(`starboardEmoji: ${starboardSettings.starboardEmoji}`, "Emoji to react to messages with to star them")
                 .addField(`starsRequired: ${starboardSettings.starsRequired}`, "How many reactions should be required to save a message?")
-                .addField(`starOwnMessages: ${starboardSettings.starOwnMessages}`, "Should a user's own reaction count towards the star count?")
+                .addField(`starOwnMessages: ${starboardSettings.starOwnMessages}`, "Should a user's own reaction count towards the star count? (toggles)")
+                .addField(`starboardUsesNicknames: ${starboardSettings.starboardUsesNicknames}`, "Should the starboard use server nicknames, or Discord usernames?")
                 .setFooter("Use )starboardsettings (settingname) (value) to change a setting.")
             )    
         } else {
@@ -54,8 +55,8 @@ module.exports = {
                     .setDescription("Manage Channels permission is required to change starboard settings.")
                 )
             }
-            const validSettings = ["starboardchannel", "starboardemoji", "starsrequired", "starownmessages"]
-            const dbName        = ["starboardChannel", "starboardEmoji", "starsRequired", "starOwnMessages"]
+            const validSettings = ["starboardchannel", "starboardemoji", "starsrequired", "starownmessages", "starboardusesnicknames"]
+            const dbName        = ["starboardChannel", "starboardEmoji", "starsRequired", "starOwnMessages", "starboardUsesNicknames"]
 
             let setting = args[0].toLowerCase()
             const dbsetting = dbName[validSettings.indexOf(setting)]
@@ -70,7 +71,7 @@ module.exports = {
                 )
             }
 
-            if (!args[1] && setting != "starownmessages") {
+            if (!args[1] && setting != "starownmessages" && setting != "starboardusesnicknames") {
                 return message.channel.sendEmbed((new MessageEmbed())
                     .setColor("#aa6666")
                     .setTitle("A value is required for this setting.")
@@ -178,6 +179,33 @@ module.exports = {
 
                 message.channel.sendEmbed((new MessageEmbed())
                     .setTitle(`Users now ${!starboardSettings.starOwnMessages ? "can" : "cannot"} star their own messages.`)
+                    .setColor("#fcd049")
+                )
+            } else if (setting == "starboardusesnicknames") {
+                let starboardSettings = await prisma.guildStarboardSettings.upsert({
+                    create: {
+                        guildId: message.guildID
+                    },
+                    where: {
+                        guildId: message.guildID
+                    },
+                    update: {}
+                })
+
+                await prisma.guildStarboardSettings.upsert({
+                    create: {
+                        guildId: message.guildID
+                    },
+                    where: {
+                        guildId: message.guildID
+                    },
+                    update: {
+                        starboardUsesNicknames: !starboardSettings.starboardUsesNicknames
+                    }
+                })
+
+                message.channel.sendEmbed((new MessageEmbed())
+                    .setTitle(`The starboard will now use ${!starboardSettings.starboardUsesNicknames ? "server nicknames." : "discord usernames."}.`)
                     .setColor("#fcd049")
                 )
             }
