@@ -43,8 +43,8 @@ module.exports = {
                 let channel = client.getChannel(starboardSettings.starboardChannel)
                 let nameToUse = fetchedMessage.author.username
                 if (starboardSettings.starboardUsesNicknames) {
-                    if (reactor.nick) { // weeeeee
-                        nameToUse = reactor.nick
+                    if (fetchedMessage.member.nick) { // weeeeee
+                        nameToUse = fetchedMessage.member.nick
                     }
                 }
 
