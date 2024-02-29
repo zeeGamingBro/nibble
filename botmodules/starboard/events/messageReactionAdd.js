@@ -43,7 +43,7 @@ module.exports = {
                 let channel = client.getChannel(starboardSettings.starboardChannel)
                 let nameToUse = fetchedMessage.author.username
                 if (starboardSettings.starboardUsesNicknames) {
-                    if (fetchedMessage.member.nick) { // weeeeee
+                    if (fetchedMessage.member && fetchedMessage.member.nick) { // member can be null for webhooks
                         nameToUse = fetchedMessage.member.nick
                     }
                 }
