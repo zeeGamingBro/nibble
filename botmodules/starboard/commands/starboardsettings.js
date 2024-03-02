@@ -44,7 +44,7 @@ module.exports = {
                 .addField(`starboardEmoji: ${starboardSettings.starboardEmoji}`, "Emoji to react to messages with to star them")
                 .addField(`starsRequired: ${starboardSettings.starsRequired}`, "How many reactions should be required to save a message?")
                 .addField(`starOwnMessages: ${starboardSettings.starOwnMessages}`, "Should a user's own reaction count towards the star count? (toggles)")
-                .addField(`starboardUsesNicknames: ${starboardSettings.starboardUsesNicknames}`, "Should the starboard use server nicknames, or Discord usernames?")
+                .addField(`starboardUsesNicknames: ${starboardSettings.starboardUsesNicknames}`, "Should the starboard use server nicknames, or Discord usernames? (toggles)")
                 .setFooter("Use )starboardsettings (settingname) (value) to change a setting.")
             )    
         } else {
