@@ -8,8 +8,8 @@ const { PrismaClient } = require("@prisma/client")
 const prisma = new PrismaClient()
 
 module.exports = {
-    name: 'nicks',
-    description: 'View someone\'s logged nicknames',
+    name: 'starboardsettings',
+    description: 'Change starboard settings',
     usage: '[setting <value>]',
     aliases: ["sbs"],
     /**
