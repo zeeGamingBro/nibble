@@ -8,14 +8,14 @@ const prisma = new PrismaClient()
  * @param {Eris.Client} client
  * @param {Eris.Message} message
  * @param {Eris.Emoji} emoji 
- * @param {(Eris.Member)} reactor
+ * @param {Eris.Member} reactor
  */
 module.exports = {
     async handle(client, message, emoji, reactor) {
         let enabled = await isModuleEnabled(message.guildID, this.module)
         if (!enabled || !message.guildID) return;
 
-        let identifier = emoji.id ? `${emoji.name}:${emoji.id}` : emoji.name 
+        let identifier = emoji.id ? `${emoji.name}:${emoji.id}` : emoji.name
         let fetchedMessage = await message.channel.getMessage(message.id)
         let starboardSettings = await prisma.guildStarboardSettings.upsert({
             create: {
@@ -41,7 +41,7 @@ module.exports = {
 
             if ((reactionCount >= reactionsNeeded) && (starboardSettings.starboardChannel != null)) {
                 let channel = client.getChannel(starboardSettings.starboardChannel)
-                let nameToUse = fetchedMessage.author.username
+                let nameToUse = fetchedMessage.author.globalName || fetchedMessage.author.username
                 if (starboardSettings.starboardUsesNicknames) {
                     if (fetchedMessage.member && fetchedMessage.member.nick) { // member can be null for webhooks
                         nameToUse = fetchedMessage.member.nick
@@ -54,7 +54,7 @@ module.exports = {
                     .setDescription((fetchedMessage.content || "") + `\n\n[Jump to message](${fetchedMessage.jumpLink})`)
                     .setTimestamp(fetchedMessage.timestamp)
                     .setFooter(`${reactionCount} reactions`)
-                
+
                 if (fetchedMessage.attachments) {
                     let imageSet = false
                     fetchedMessage.attachments.forEach(element => {
@@ -66,9 +66,9 @@ module.exports = {
                     });
                 }
 
-                if (!alreadyStarred) {                
+                if (!alreadyStarred) {
                     let starboardMessage = await channel.sendEmbed(starEmbed)
-                    await prisma.starredMessage.create({data: { messageId: fetchedMessage.id, starboardMessageId: starboardMessage.id }})
+                    await prisma.starredMessage.create({ data: { messageId: fetchedMessage.id, starboardMessageId: starboardMessage.id } })
                 } else {
                     let toEdit = starredMessage.starboardMessageId
                     if (!toEdit) return; // some messages are pre-this-shit
@@ -77,7 +77,7 @@ module.exports = {
                         embed: starEmbed.toJson
                     })
                 }
-                
+
             }
         }
     }
