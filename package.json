@@ -18,8 +18,10 @@
   "homepage": "https://github.com/keli5/nibble#readme",
   "dependencies": {
     "@prisma/client": "^5.7.1",
+    "bufferutil": "^4.0.8",
     "discord-eris-embeds": "^1.0.4",
-    "eris": "^0.17.2"
+    "eris": "github:abalabahaha/eris#dev",
+    "zlib-sync": "^0.1.9"
   },
   "devDependencies": {
     "prisma": "^5.7.1"
