@@ -1,6 +1,8 @@
 const Eris = require("eris")
 const MessageEmbed = require("davie-eris-embed")
 const { isModuleEnabled } = require("../../../util/moduleUtil")
+const { PrismaClient } = require("@prisma/client")
+const prisma = new PrismaClient()
 
 /**
  * 
@@ -9,12 +11,17 @@ const { isModuleEnabled } = require("../../../util/moduleUtil")
  */
 module.exports = {
     async handle(client, message) {
-        const prefix = client.config.prefix
+        const guild = await prisma.guildModules.findFirst({
+            where: {
+                guildId: message.guildID
+            }
+        }) || null // in case it doesn't exist just yet
+        let prefix = guild?.prefix || client.config.prefix
         if (message.author.bot) return;
         if (message.channel.type == undefined) return; // what?
-    
+
         if (message.content.includes("nibble") && (Math.random() > 0.8)) await message.channel.createMessage("hai :3")
-    
+
         if (!message.content.startsWith(prefix)) return;
         let args = message.content.slice(prefix.length).split(/ +/);
         const commandName = args.shift().toLowerCase();
@@ -26,10 +33,10 @@ module.exports = {
             return message.channel.sendEmbed((new MessageEmbed())
                 .setColor("#aa6666")
                 .setTitle("This command's module is disabled.")
-                .setDescription("Module " + client.modules.get(command.module).name + " is disabled in this server.")    
+                .setDescription("Module " + client.modules.get(command.module).name + " is disabled in this server.")
             )
         }
-    
+
         if (command.args && !args.length) {
             return message.channel.sendEmbed((new MessageEmbed())
                 .setColor("#aa6666")
@@ -40,14 +47,14 @@ module.exports = {
 
         if (command.permissions?.length > 0) {
             let canExecute = true
-    
+
             if (Array.isArray(command.permissions)) {
                 let member = client.guilds.get(message.guildID).members.get(message.author.id)
                 command.permissions.forEach(permission => {
                     if (!member.permissions.json[permission]) canExecute = false;
                 });
             }
-    
+
             if (!canExecute) {
                 return message.channel.sendEmbed((new MessageEmbed())
                     .setColor(client.config.embedColors.error)
@@ -56,7 +63,7 @@ module.exports = {
                 )
             }
         }
-    
+
         try {
             await command.execute(client, message, args)
         } catch (error) {
