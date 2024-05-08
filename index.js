@@ -1,3 +1,4 @@
+/* mrrruow mrrup meeow :33 */
 const { Client, Collection, TextChannel } = require("eris");
 const { readdirSync, existsSync } = require("fs");
 
